@@ -462,7 +462,7 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
   $qp = new IslandoraSolrQueryProcessor();
   $_islandora_solr_queryclass = $qp;
 
-  $qp->buildQuery(format_string('!member_field:("info:fedora/!pid" OR "!pid") OR !collection_member_field:("info:fedora/!pid" OR "!pid")', array(
+  $qp->buildQuery(format_string('(!member_field:("info:fedora/!pid" OR "!pid")) OR (!collection_member_field:("info:fedora/!pid" OR "!pid"))', array(
     '!member_field' => variable_get('islandora_solr_member_of_field', 'RELS_EXT_isMemberOf_uri_ms'),
     '!pid' => $collection_object->id,
     '!collection_member_field' => variable_get('islandora_solr_member_of_collection_field', 'RELS_EXT_isMemberOfCollection_uri_ms'),
@@ -479,6 +479,10 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
 
   $qp->solrStart = $page * $limit;
   $qp->solrLimit = $limit;
+  // Could be 50% also
+  $qp->solrParams['mm'] = "1"; 
+  $qp->solrParams['q.op'] = "OR";
+
 
   if (variable_get('islandora_solr_collection_sort_block_override', FALSE) && isset($qp->internalSolrParams['sort'])) {
     $qp->solrParams['sort'] = $qp->internalSolrParams['sort'];
@@ -486,9 +490,7 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
   else {
     $qp->solrParams['sort'] = islandora_solr_get_collection_sort_string($collection_object->id, TRUE);
   }
-
   $qp->executeQuery();
-
   $map_to_pids = function ($result) {
     return $result['PID'];
   };
