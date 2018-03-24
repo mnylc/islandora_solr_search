@@ -482,7 +482,7 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
   // Could be 50% also
   $qp->solrParams['mm'] = "1"; 
   $qp->solrParams['q.op'] = "OR";
-;
+
 
   if (variable_get('islandora_solr_collection_sort_block_override', FALSE) && isset($qp->internalSolrParams['sort'])) {
     $qp->solrParams['sort'] = $qp->internalSolrParams['sort'];
