@@ -491,7 +491,7 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
   }
   dpm($qp);
   $qp->executeQuery();
-
+  dpm($qp);
   $map_to_pids = function ($result) {
     return $result['PID'];
   };
