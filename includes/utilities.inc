@@ -489,7 +489,7 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
   else {
     $qp->solrParams['sort'] = islandora_solr_get_collection_sort_string($collection_object->id, TRUE);
   }
-
+  dpm($qp);
   $qp->executeQuery();
 
   $map_to_pids = function ($result) {
