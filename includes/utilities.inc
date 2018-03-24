@@ -479,6 +479,8 @@ function islandora_solr_islandora_basic_collection_backend_callable($collection_
 
   $qp->solrStart = $page * $limit;
   $qp->solrLimit = $limit;
+  $qp->solrParams['mm'] = "50%";
+  $qp->solrParams['q.op'] = "OR";
 
   if (variable_get('islandora_solr_collection_sort_block_override', FALSE) && isset($qp->internalSolrParams['sort'])) {
     $qp->solrParams['sort'] = $qp->internalSolrParams['sort'];
